@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pose Classification</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    
+    <div class="title">
+        <h1>Pose Classification Guide</h1>
+        <p>Follow the instructions to perform the poses correctly.</p>
+    </div>
+    <div class="container">
+        <canvas id="outputCanvas"></canvas>
+        <div class="pose-guide">
+            <img id="poseGuideImage" src="images/Y_pose.jpg" alt="Pose Guide">
+            <h3 id="poseGuideLabel">Y Pose</h3>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="script.js"></script>
+</body>
+</html>

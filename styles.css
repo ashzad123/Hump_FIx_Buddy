@@ -1,0 +1,64 @@
+/* Set a gradient background for the entire page */
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #6D83F2, #4A90E2);
+    font-family: Arial, sans-serif;
+    color: #fff;
+    text-align: center;
+}
+
+/* Title section */
+.title {
+    margin: 20px;
+    padding: 10px;
+}
+
+.title h1 {
+    font-size: 36px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.title p {
+    font-size: 18px;
+    color: #fff;
+    margin-top: 0;
+}
+
+/* Container for canvas and pose guide */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Style the canvas element */
+canvas {
+    border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: block;
+}
+
+/* Style the pose guide */
+.pose-guide {
+    text-align: center;
+    max-width: 250px; /* Adjust as needed */
+}
+
+.pose-guide img {
+    width: 100%; /* Adjust the size of the image as needed */
+    height: auto;
+    border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.pose-guide h3 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
