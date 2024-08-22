@@ -138,11 +138,11 @@ function updatePoseGuide() {
 
     switch (nextPose) {
         case 'Y Pose':
-            poseGuideImage.src = 'images/Y_pose.jpg';
+            poseGuideImage.src = 'images/Y_Pose.jpg';
             poseGuideLabel.textContent = 'Y Pose';
             break;
         case 'W Pose':
-            poseGuideImage.src = 'images/W_pose.jpg';
+            poseGuideImage.src = 'images/W_Pose.jpg';
             poseGuideLabel.textContent = 'W Pose';
             break;
         case 'T Pose':
