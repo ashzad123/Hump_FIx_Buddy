@@ -13,7 +13,7 @@ You can read the Google Mediapipe library for more classification model and dete
 
 ## Check the My Buddy
 
-Click the link  to let me Buddy help you fix your Hump -->[Hump_Fix_Buddy](https://github.com/ashzad123/Hump_Fix_Buddy)
+Click the link  to let my Buddy help you fix your Hump -->[Hump_Fix_Buddy](https://github.com/ashzad123/Hump_Fix_Buddy)
 
     
 ## Code Explanations
