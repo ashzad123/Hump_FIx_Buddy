@@ -1,4 +1,4 @@
-/* Set a gradient background for the entire page */
+
 body {
     margin: 0;
     padding: 0;
@@ -26,30 +26,41 @@ body {
     margin-top: 0;
 }
 
-/* Container for canvas and pose guide */
+
 .container {
     display: flex;
+    flex-direction: column;
+
     align-items: center;
     justify-content: center;
     gap: 20px;
     padding: 20px;
 }
 
-/* Style the canvas element */
+
 canvas {
+    width: 100%;
+
+    max-width: 100%;
+
+    height: auto;
+
     border: 3px solid #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: block;
 }
 
-/* Style the pose guide */
+
 .pose-guide {
     text-align: center;
-    max-width: 250px; /* Adjust as needed */
+    max-width: 80%;
+    
+    margin: 10px 0;
 }
 
 .pose-guide img {
-    width: 100%; /* Adjust the size of the image as needed */
+    width: 100%;
+    
     height: auto;
     border: 3px solid #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -61,4 +72,31 @@ canvas {
     color: #fff;
     margin-top: 10px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+
+@media (min-width: 768px) {
+
+    
+    .container {
+        flex-direction: row;
+       
+    }
+}
+
+@media (max-width: 767px) {
+    .title h1 {
+        font-size: 28px;
+        
+    }
+
+    .title p {
+        font-size: 16px;
+       
+    }
+
+    .pose-guide h3 {
+        font-size: 20px;
+       
+    }
 }
