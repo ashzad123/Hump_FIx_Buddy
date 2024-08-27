@@ -1,28 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pose Classification</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Back Hump Correction Guide</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to the external CSS file -->
 </head>
-
 <body>
-    <div class="title">
-        <h1>Pose Classification Guide</h1>
-        <p>Follow the instructions to perform the poses correctly.</p>
-    </div>
-    <div class="container">
-        <canvas id="outputCanvas"></canvas>
-        <div class="pose-guide">
-            <img id="poseGuideImage" src="images/Y_Pose.jpg" alt="Pose Guide">
-            <h3 id="poseGuideLabel">Y Pose</h3>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="script.js"></script>
-</body>
 
+    
+    <video autoplay muted loop id="background-video">
+        <source src="background.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="content">
+        <h1>Back Hump Correction Guide</h1>
+        <p>The back hump, also known as kyphosis, is a condition where the spine curves forward, leading to a hunched posture. Regular exercises can help correct this condition, and YWTL poses are particularly effective in strengthening the back and improving posture.</p>
+
+        <h2>YWTL Poses</h2>
+        <p>The YWTL poses are designed to target the muscles that support your posture. Here’s how each pose helps:</p>
+        <ul>
+            <li><strong>Y-Pose:</strong> This pose targets the upper back and shoulders, helping to improve flexibility and alignment.</li>
+            <li><strong>W-Pose:</strong> Focuses on the middle back muscles, encouraging the scapula to retract and open the chest.</li>
+            <li><strong>T-Pose:</strong> Strengthens the lower trapezius and rhomboids, which play a crucial role in maintaining an upright posture.</li>
+            <li><strong>L-Pose:</strong> Targets the lower back and lumbar region, helping to stabilize the spine and reduce the curvature.</li>
+        </ul>
+        <p>By performing these poses regularly, you can gradually correct your posture and alleviate the symptoms of a back hump.</p>
+
+        <p>Click the button below to start your exercise routine and follow along with the guided poses.</p>
+        <button class="start-button" onclick="startExercise()">Start the Exercises</button>
+        <div class="countdown" id="countdown"></div>
+    </div>
+
+    <script>
+        function startExercise() {
+            const countdownElement = document.getElementById('countdown');
+            let countdown = 3;
+
+            const interval = setInterval(() => {
+                countdownElement.textContent = countdown;
+                countdown--;
+
+                if (countdown < 0) {
+                    clearInterval(interval);
+                    window.location.href = 'model/model.html';
+                }
+            }, 1000);
+        }
+    </script>
+
+</body>
 </html>
