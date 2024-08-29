@@ -2,6 +2,9 @@ const videoElement = document.createElement('video');
 const canvasElement = document.getElementById('outputCanvas');
 const canvasCtx = canvasElement.getContext('2d');
 
+const loaderElement = document.getElementById('loader'); // Get the loader element
+const poseGuideElement = document.querySelector('.pose-guide'); // Get the pose guide element
+
 const pose = new Pose({
     locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
 });
@@ -24,6 +27,10 @@ const poseSequence = ['Y Pose', 'W Pose', 'T Pose', 'L Pose'];
 const poseGuideImage = document.getElementById('poseGuideImage');
 const poseGuideLabel = document.getElementById('poseGuideLabel');
 
+// Initially hide canvas and pose guide
+canvasElement.style.display = 'none';
+poseGuideElement.style.display = 'none';
+
 // Start the camera
 navigator.mediaDevices.getUserMedia({ video: true })
     .then((stream) => {
@@ -31,6 +38,13 @@ navigator.mediaDevices.getUserMedia({ video: true })
         videoElement.play();
 
         videoElement.onloadedmetadata = () => {
+            // Hide the loader once the camera is ready
+            loaderElement.style.display = 'none';
+            
+            // Show canvas and pose guide
+            canvasElement.style.display = 'block';
+            poseGuideElement.style.display = 'block';
+
             canvasElement.width = videoElement.videoWidth;
             canvasElement.height = videoElement.videoHeight;
 
@@ -42,6 +56,7 @@ navigator.mediaDevices.getUserMedia({ video: true })
         };
     }).catch((err) => {
         console.error("Error accessing the webcam: ", err);
+        loaderElement.textContent = "Error accessing the camera.";
     });
 
 function onResults(results) {
@@ -115,8 +130,6 @@ function classifyPose(landmarks) {
         if (remainingTime === 0) {
             poseStartTime = null;
             currentPoseIndex = (currentPoseIndex + 1) % poseSequence.length;
-
-            
 
             // Play an audio alert
             const audio = new Audio('audio/pose_change.mp3');
