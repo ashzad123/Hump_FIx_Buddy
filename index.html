@@ -8,7 +8,6 @@
 </head>
 <body>
 
-    
     <video autoplay muted loop id="background-video">
         <source src="background.mp4" type="video/mp4">
         Your browser does not support the video tag.
@@ -29,12 +28,14 @@
         <p>By performing these poses regularly, you can gradually correct your posture and alleviate the symptoms of a back hump.</p>
 
         <p>Click the button below to start your exercise routine and follow along with the guided poses.</p>
-        <button class="start-button" onclick="startExercise()">Start the Exercises</button>
+        <button class="start-button" onclick="startExercise(this)">Start the Exercises</button>
         <div class="countdown" id="countdown"></div>
     </div>
 
     <script>
-        function startExercise() {
+        function startExercise(button) {
+            button.disabled = true; // Disable the button after it's clicked
+
             const countdownElement = document.getElementById('countdown');
             let countdown = 3;
 
