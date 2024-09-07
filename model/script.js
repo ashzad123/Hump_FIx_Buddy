@@ -2,8 +2,7 @@ const videoElement = document.createElement('video');
 const canvasElement = document.getElementById('outputCanvas');
 const canvasCtx = canvasElement.getContext('2d');
 
-const loaderElement = document.getElementById('loader'); // Get the loader element
-const poseGuideElement = document.querySelector('.pose-guide'); // Get the pose guide element
+const loaderElement = document.getElementById('loader');
 
 const pose = new Pose({
     locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
@@ -24,12 +23,11 @@ const poseDuration = 15; // in seconds
 
 const poseSequence = ['Y Pose', 'W Pose', 'T Pose', 'L Pose'];
 
-const poseGuideImage = document.getElementById('poseGuideImage');
-const poseGuideLabel = document.getElementById('poseGuideLabel');
+const poseGuideImage = new Image();
+poseGuideImage.src = 'images/Y_Pose.jpg'; // Default pose guide image
 
-// Initially hide canvas and pose guide
+// Initially hide canvas
 canvasElement.style.display = 'none';
-poseGuideElement.style.display = 'none';
 
 // Start the camera
 navigator.mediaDevices.getUserMedia({ video: true })
@@ -41,9 +39,8 @@ navigator.mediaDevices.getUserMedia({ video: true })
             // Hide the loader once the camera is ready
             loaderElement.style.display = 'none';
             
-            // Show canvas and pose guide
+            // Show canvas
             canvasElement.style.display = 'block';
-            poseGuideElement.style.display = 'block';
 
             canvasElement.width = videoElement.videoWidth;
             canvasElement.height = videoElement.videoHeight;
@@ -67,6 +64,14 @@ function onResults(results) {
     if (results.poseLandmarks) {
         classifyPose(results.poseLandmarks);
     }
+    
+    // Draw the pose guide image with low opacity
+    if (poseGuideImage.complete) {
+        canvasCtx.globalAlpha = 0.1; // Set opacity (0.0 to 1.0)
+        canvasCtx.drawImage(poseGuideImage, 0, 0, canvasElement.width, canvasElement.height);
+        canvasCtx.globalAlpha = 1.0; // Reset opacity
+    }
+
     canvasCtx.restore();
 }
 
@@ -152,19 +157,15 @@ function updatePoseGuide() {
     switch (nextPose) {
         case 'Y Pose':
             poseGuideImage.src = 'images/Y_Pose.jpg';
-            poseGuideLabel.textContent = 'Y Pose';
             break;
         case 'W Pose':
             poseGuideImage.src = 'images/W_Pose.jpg';
-            poseGuideLabel.textContent = 'W Pose';
             break;
         case 'T Pose':
             poseGuideImage.src = 'images/T_pose.jpg';
-            poseGuideLabel.textContent = 'T Pose';
             break;
         case 'L Pose':
             poseGuideImage.src = 'images/L-Pose.jpg';
-            poseGuideLabel.textContent = 'L Pose';
             break;
     }
 }

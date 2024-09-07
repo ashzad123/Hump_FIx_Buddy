@@ -45,28 +45,6 @@ canvas {
     display: block;
 }
 
-/* Pose guide */
-.pose-guide {
-    text-align: center;
-    max-width: 80%;
-    margin: 10px 0;
-}
-
-.pose-guide img {
-    width: 100%;
-    height: auto;
-    border: 3px solid #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.pose-guide h3 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
-    margin-top: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-
 /* Loader */
 .loader {
     position: fixed;
@@ -116,9 +94,5 @@ canvas {
 
     .title p {
         font-size: 16px;
-    }
-
-    .pose-guide h3 {
-        font-size: 20px;
     }
 }
