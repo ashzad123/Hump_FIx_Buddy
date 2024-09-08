@@ -36,14 +36,34 @@ navigator.mediaDevices.getUserMedia({ video: true })
         videoElement.play();
 
         videoElement.onloadedmetadata = () => {
-            // Hide the loader once the camera is ready
             loaderElement.style.display = 'none';
-            
-            // Show canvas
             canvasElement.style.display = 'block';
 
-            canvasElement.width = videoElement.videoWidth;
-            canvasElement.height = videoElement.videoHeight;
+            // Function to resize the canvas
+            const resizeCanvas = () => {
+                const aspectRatio = videoElement.videoWidth / videoElement.videoHeight;
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+
+                // Calculate the maximum width and height for the canvas
+                const maxCanvasWidth = windowWidth * 0.9; // 90% of window width
+                const maxCanvasHeight = windowHeight * 0.9; // 90% of window height
+
+                // Set canvas dimensions while maintaining the aspect ratio
+                if (maxCanvasWidth / aspectRatio <= maxCanvasHeight) {
+                    canvasElement.width = maxCanvasWidth;
+                    canvasElement.height = maxCanvasWidth / aspectRatio;
+                } else {
+                    canvasElement.width = maxCanvasHeight * aspectRatio;
+                    canvasElement.height = maxCanvasHeight;
+                }
+            };
+
+            // Initial resize
+            resizeCanvas();
+
+            // Adjust canvas size on window resize
+            window.addEventListener('resize', resizeCanvas);
 
             async function videoFrameProcessing() {
                 await pose.send({ image: videoElement });
