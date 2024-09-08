@@ -3,6 +3,21 @@ const canvasElement = document.getElementById('outputCanvas');
 const canvasCtx = canvasElement.getContext('2d');
 
 const loaderElement = document.getElementById('loader');
+const messageElement = document.createElement('div');
+const restartButton = document.createElement('button');
+
+messageElement.style.display = 'none';
+messageElement.style.fontSize = '24px';
+messageElement.style.color = '#fff';
+messageElement.style.marginTop = '20px';
+
+restartButton.textContent = 'Restart Poses';
+restartButton.style.display = 'none';
+restartButton.className = 'action-button';
+restartButton.onclick = restartPoses;
+
+document.body.appendChild(messageElement);
+document.body.appendChild(restartButton);
 
 const pose = new Pose({
     locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
@@ -39,17 +54,14 @@ navigator.mediaDevices.getUserMedia({ video: true })
             loaderElement.style.display = 'none';
             canvasElement.style.display = 'block';
 
-            // Function to resize the canvas
             const resizeCanvas = () => {
                 const aspectRatio = videoElement.videoWidth / videoElement.videoHeight;
                 const windowWidth = window.innerWidth;
                 const windowHeight = window.innerHeight;
 
-                // Calculate the maximum width and height for the canvas
-                const maxCanvasWidth = windowWidth * 0.9; // 90% of window width
-                const maxCanvasHeight = windowHeight * 0.9; // 90% of window height
+                const maxCanvasWidth = windowWidth * 0.9;
+                const maxCanvasHeight = windowHeight * 0.9;
 
-                // Set canvas dimensions while maintaining the aspect ratio
                 if (maxCanvasWidth / aspectRatio <= maxCanvasHeight) {
                     canvasElement.width = maxCanvasWidth;
                     canvasElement.height = maxCanvasWidth / aspectRatio;
@@ -59,10 +71,7 @@ navigator.mediaDevices.getUserMedia({ video: true })
                 }
             };
 
-            // Initial resize
             resizeCanvas();
-
-            // Adjust canvas size on window resize
             window.addEventListener('resize', resizeCanvas);
 
             async function videoFrameProcessing() {
@@ -85,11 +94,10 @@ function onResults(results) {
         classifyPose(results.poseLandmarks);
     }
     
-    // Draw the pose guide image with low opacity
     if (poseGuideImage.complete) {
-        canvasCtx.globalAlpha = 0.1; // Set opacity (0.0 to 1.0)
+        canvasCtx.globalAlpha = 0.1;
         canvasCtx.drawImage(poseGuideImage, 0, 0, canvasElement.width, canvasElement.height);
-        canvasCtx.globalAlpha = 1.0; // Reset opacity
+        canvasCtx.globalAlpha = 1.0;
     }
 
     canvasCtx.restore();
@@ -112,32 +120,28 @@ function classifyPose(landmarks) {
 
     let label = 'Unknown Pose';
 
-    // Y-Pose
     if ((leftElbowAngle > 120 && leftElbowAngle < 150) || (rightElbowAngle > 120 && rightElbowAngle < 150)) {
         if ((leftShoulderAngle > 115 && leftShoulderAngle < 150) || (rightShoulderAngle > 115 && rightShoulderAngle < 150)) {
             label = 'Y Pose';
         }
     }
-    // W-Pose
     if ((leftElbowAngle > 50 && leftElbowAngle < 85) || (rightElbowAngle > 50 && rightElbowAngle < 85)) {
         if ((leftShoulderAngle > 55 && leftShoulderAngle < 100) || (rightShoulderAngle > 55 && rightShoulderAngle < 100)) {
             label = 'W Pose';
         }
     }
-    // T-Pose
     if ((leftElbowAngle > 145 && leftElbowAngle < 200) || (rightElbowAngle > 145 && rightElbowAngle < 200)) {
         if ((leftShoulderAngle > 65 && leftShoulderAngle < 95) || (rightShoulderAngle > 65 && rightShoulderAngle < 95)) {
             label = 'T Pose';
         }
     }
-    // L-Pose
     if ((leftElbowAngle > 90 && leftElbowAngle < 130) || (rightElbowAngle > 90 && rightElbowAngle < 130)) {
         if ((leftShoulderAngle > 15 && leftShoulderAngle < 45) || (rightShoulderAngle > 15 && rightShoulderAngle < 45)) {
             label = 'L Pose';
         }
     }
 
-    const now = Date.now() / 1000; // Current time in seconds
+    const now = Date.now() / 1000;
     const expectedPose = poseSequence[currentPoseIndex];
 
     if (label !== 'Unknown Pose' && label === expectedPose) {
@@ -156,11 +160,13 @@ function classifyPose(landmarks) {
             poseStartTime = null;
             currentPoseIndex = (currentPoseIndex + 1) % poseSequence.length;
 
-            // Play an audio alert
-            const audio = new Audio('audio/pose_change.mp3');
-            audio.play();
-
-            updatePoseGuide();
+            if (currentPoseIndex === 0) {
+                showCongratulations();
+            } else {
+                const audio = new Audio('audio/pose_change.mp3');
+                audio.play();
+                updatePoseGuide();
+            }
         }
     } else {
         poseStartTime = null;
@@ -188,4 +194,19 @@ function updatePoseGuide() {
             poseGuideImage.src = 'images/L-Pose.jpg';
             break;
     }
+}
+
+function showCongratulations() {
+    canvasElement.style.display = 'none'; // Hide the canvas
+    messageElement.textContent = "Congratulations! You've completed all poses!";
+    messageElement.style.display = 'block';
+    restartButton.style.display = 'inline-block';
+}
+
+function restartPoses() {
+    currentPoseIndex = 0;
+    updatePoseGuide();
+    messageElement.style.display = 'none';
+    restartButton.style.display = 'none';
+    canvasElement.style.display = 'block'; // Show the canvas again
 }
